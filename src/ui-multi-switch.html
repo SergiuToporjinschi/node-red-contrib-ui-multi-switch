@@ -12,7 +12,7 @@
             margin: 0px; 
             width: 90px
         }
-        ol#controls-container label{
+        ol#controls-container label {
             margin: 0px; margin-right: 10px; width: auto
         }
         ol#controls-container{
@@ -73,7 +73,7 @@
             height: { value: 3 },
             controls: []
         },
-        inputs: 1,
+        inputs: 0,
         outputs: 1,
         align: "left",
         icon: "serial.png",
@@ -85,6 +85,10 @@
                 height: "#node-input-height",
                 group: "#node-input-group"
             });
+            function resizeRule(container) {
+                var newWidth = container.width();
+                container.find('.red-ui-typedInput').typedInput("width", newWidth - 100);
+            }
             $("#controls-container").editableList({
                 addItem: function (container, i, control) {
                     var row = $('<div/>').appendTo(container);
@@ -105,6 +109,7 @@
                             row2Switch.show();
                             row1Button.hide();
                         }
+                        resizeRule(container);
                     });
                     var controlKey = $('<input/>', { id: 'control-key-' + i, class: "input-control-key", type: "text", placeholder: RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.controlKey") }).appendTo(row);
                     var controlLabel = $('<input/>', { id: 'control-label-' + i, class: "input-control-label", type: "text", placeholder: RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.controlLabel") }).appendTo(row);
@@ -148,7 +153,9 @@
                         switchOnVal.typedInput('value', control.onVal);
                     }
                     selectField.change();
+                    resizeRule(container);
                 },
+                resizeItem: resizeRule,
                 removable: true,
                 sortable: true
             });
@@ -194,11 +201,12 @@
         oneditcancel: function () {
         },
         oneditresize: function (size) {
+            $("#controls-container").find('.red-ui-typedInput').typedInput("width",size.width-200);
         }
     });
 </script>
 <script type="text/html text/x-red" data-help-name="ui-multi-switch">
-	<p>A dashboard ui interface node for controlling a heater;</p>
+	<p>A dashboard ui interface for multiple checkboxes and buttons; The values of all checkbox are sent to Output node when the user pushes the button</p>
     <h3>Properties</h3>
     <dl class="message-properties">
 		<dt>Min <span class="property-type">integer</span></dt>
