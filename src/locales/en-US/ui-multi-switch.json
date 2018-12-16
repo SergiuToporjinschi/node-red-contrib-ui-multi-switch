@@ -1,0 +1,21 @@
+{
+    "config": {
+        "label": {
+            "size": "Size",
+            "name": "Name",
+            "group": "Group",
+            "addSection": "Add",
+            "controls": "Control list",
+            "typeKey": "Type/Key",
+            "label": "Label",
+            "switchType": "switch",
+            "buttonType": "button",
+            "sendSwitchOnOffLabel": "Set value:",
+            "sendSwitchOnLabel": "On Payload",
+            "sendSwitchOffLabel": "Off Payload"
+        },
+        "error": {
+            "no-group": "Group is missing"
+        }
+    }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "node-red-contrib-ui-multi-switch",
+  "version": "0.0.1",
+  "contributors": [],
+  "dependencies": {},
+  "deprecated": false,
+  "description": "A dashboard ui",
+  "homepage": "https://github.com/SergiuToporjinschi/node-red-contrib-ui-multi-switch#readme",
+  "node-red": {
+    "nodes": {
+      "ui-multi-switch": "src/ui-multi-switch.js"
+    }
+  },
+  "main": "src/ui-multi-switch.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SergiuToporjinschi/node-red-contrib-ui-multi-switch.git"
+  },
+  "keywords": [
+    "node-red",
+    "dashboard",
+    "witch"
+  ],
+  "author": "Sergiu Toporjinschi",
+  "license": "GPL 3.0",
+  "bugs": {
+    "url": "https://github.com/SergiuToporjinschi/node-red-contrib-ui-multi-switch/issues"
+  }
+}

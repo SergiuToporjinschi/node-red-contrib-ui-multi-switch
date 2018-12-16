@@ -1,0 +1,13 @@
+{
+    "switch": {
+        "label": {
+            "size": "Dimensiune",
+            "name": "Nume",
+            "group": "Grup",
+            "addSection": "Add"
+        },
+        "error": {
+            "no-group": "Grup neconfigurat"
+        }
+    }
+}
