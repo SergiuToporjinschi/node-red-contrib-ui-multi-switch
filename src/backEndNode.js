@@ -15,36 +15,31 @@ backEndNode.prototype.getWidget = function () {
         templateScope: "local",
         emitOnlyNewValues: false,
         forwardInputMessages: false,
-        storeFrontEndInputAsState: true,
+        storeFrontEndInputAsState: false,
         initController: frontEnd.getController,
-        beforeEmit: function () { return me.beforeEmit.apply(me, arguments); },
         beforeSend: function () { return me.beforeSend.apply(me, arguments); }
     };
 };
+// beforeEmit: function () { return me.beforeEmit.apply(me, arguments); },
 
-backEndNode.prototype.beforeEmit = function (msg, value) {
-    if (this.allowedTopics.indexOf(msg.topic) < 0) { //if topic is not a safe one just trigger a refresh of UI
-        return { msg: storeKeyInContext(this.node) }; //return what I already have
-    }
+// backEndNode.prototype.beforeEmit = function (msg, value) {
+//     if (this.allowedTopics.indexOf(msg.topic) < 0) { //if topic is not a safe one just trigger a refresh of UI
+//         return { msg: storeKeyInContext(this.node) }; //return what I already have
+//     }
 
-    var returnValues = storeKeyInContext(this.node, msg.topic, value);
-    if ('currentTemp' === msg.topic) {
-        returnValues.currentSchedule = getScheduleTemp(this.config.calendar);
-        returnValues.nextSchedule = getScheduleTemp(this.config.calendar, 1);
-        returnValues = recalculateAndTrigger(returnValues, this.config.thresholdRising, this.config.thresholdFalling, this.node);
-        this.node.send({ payload: returnValues });
-    }
-    return { msg: returnValues };
-};
+//     var returnValues = storeKeyInContext(this.node, msg.topic, value);
+//     if ('currentTemp' === msg.topic) {
+//         returnValues.currentSchedule = getScheduleTemp(this.config.calendar);
+//         returnValues.nextSchedule = getScheduleTemp(this.config.calendar, 1);
+//         returnValues = recalculateAndTrigger(returnValues, this.config.thresholdRising, this.config.thresholdFalling, this.node);
+//         this.node.send({ payload: returnValues });
+//     }
+//     return { msg: returnValues };
+// };
 
 backEndNode.prototype.beforeSend = function (msg, orig) {
     if (orig) {
-        var result = recalculateAndTrigger(orig.msg, this.config.thresholdRising, this.config.thresholdFalling, this.node);
-        if (result) {
-            return { payload: storeInContext(this.node, result) };
-        } else {
-            return undefined;
-        }
+        return orig.msg;
     }
 };
 
