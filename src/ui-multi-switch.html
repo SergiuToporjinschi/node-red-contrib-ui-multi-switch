@@ -1,4 +1,24 @@
 <script type="text/html text/x-red" data-template-name="ui-multi-switch">
+    <style>
+        input.input-control-key, input.input-control-label {
+            width: 36%;
+            margin-right: 10px;
+        }
+        .input-control-type {
+            width: auto; 
+            margin-right: 10px;
+        }
+        ol#controls-container .control-button-reset{
+            margin: 0px; 
+            width: 90px
+        }
+        ol#controls-container label{
+            margin: 0px; margin-right: 10px; width: auto
+        }
+        ol#controls-container{
+            min-height: 450px; min-width: 450px;
+        }
+    </style>
     <div class="form-row">
         <label for="node-input-name"><i class="fa fa-tag"></i> <span data-i18n="config.label.name"></span></label>
         <input type="text" id="node-input-name">
@@ -14,56 +34,13 @@
         <button class="editor-button" id="node-input-size"></button>
     </div>
     <div class="form-row">
-        <label style="width:95%; border-bottom: 1px solid #eee;"><span data-i18n="config.label.addSection"></label>
-    </div>
-    <div class="ident"> 
-    	<div class="form-row">
-            <label for="add-controlKey"><i class="fa fa-list"></i> <span data-i18n="config.label.typeKey"></span></label>
-            <input id="add-controlKey" type="text" style="width:73%">
-            <input id="add-controlKey-value" type="hidden">
-        </div>
-        <div id="add-control-switch-sendOnOffValue">
-            <div class="form-row">
-                <label style="width:auto" for="add-control-switch-onvalue"><i class="fa fa-envelope-o"></i> <span data-i18n="config.label.sendSwitchOnOffLabel"></span></label>
-            </div>
-            <div class="form-row">
-                <label for="add-control-switch-onvalue"><span data-i18n="config.label.sendSwitchOnLabel"></label>
-                <input type="text" id="add-control-switch-onvalue" style="width:70%">
-                <input type="hidden" id="add-control-switch-onvalue-value">
-            </div>
-            <div class="form-row">
-                <label for="add-control-switch-offvalue"><span data-i18n="config.label.sendSwitchOffLabel"></label>
-                <input type="text" id="add-control-switch-offvalue" style="width:70%">
-                <input type="hidden" id="add-control-switch-offvalue-value">
-            </div>
-        </div>
-        <div class="form-row">
-            <label for="add-control-label"><i class="fa fa-list"></i> <span data-i18n="config.label.label"></span></label>
-            <input id="add-control-label" type="text" style="width:73%">
-        </div>
-    </div>
-    <div class="form-row">
         <label style="width:95%; border-bottom: 1px solid #eee;"><span data-i18n="config.label.controls"></label>
     </div>
     <div class="ident"> 
         <div class="form-row" id="template-row-size">
-            <ol id="node-input-topics-container"></ol>
+            <ol id="controls-container" style=""></ol>
         </div>
     </div> 
-    <!-- <div class="ident">
-	</div> -->
-	<!-- <div class="form-row">
-    </div>
-	<div class="ident"> --> 
-		<!-- <div class="form-row" style="display: block;">
-			<label style="width: 140px !important" for="node-input-thresholdRising"><i class="fa fa-level-up"/> <span data-i18n="ui_multi_switch.label.upThreshold"></label>
-			<input type="number" id="node-input-thresholdRising" data-i18n="[placeholder]ui_multi_switch.placeholder.value" style="width: 280px" dir="">
-		</div> -->
-		<!-- <div class="form-row" style="display: block;">
-			<label style="width: 140px !important" for="node-input-thresholdFalling"><i class="fa fa-level-down"/> <span data-i18n="ui_multi_switch.label.lowerThreshold"></label>
-			<input type="number" id="node-input-thresholdFalling" data-i18n="[placeholder]ui_multi_switch.placeholder.value" style="width: 280px" dir="">
-		</div> 
-	</div>-->
 	
 </script>
 
@@ -76,7 +53,6 @@
             group: {
                 type: 'ui_group', required: true,
                 validate: function (v) {
-                    debugger;
                     return v && RED.nodes.node(v) && RED.nodes.node(v).type === 'ui_group';
                 }
             },
@@ -95,6 +71,7 @@
                 }
             },
             height: { value: 3 },
+            controls: []
         },
         inputs: 1,
         outputs: 1,
@@ -103,56 +80,120 @@
         paletteLabel: "Multi switch",
         label: function () { return this.name || "Multi switch"; },
         oneditprepare: function () {
-            $("#add-controlKey").typedInput({
-                types:
-                    [{ value: "switch", label: RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.switchType"), hasValue: true },
-                    { value: "button", label: RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.buttonType"), hasValue: true }]
-            });
-
-            $('#add-control-switch-offvalue').typedInput({
-                default: 'bool',
-                typeField: $("add-control-switch-offvalue-value"),
-                types: ['str', 'num', 'bool', 'json', 'bin', 'date', 'flow', 'global'],
-                value: true
-            });
-            $("#add-controlKey").on('change', function () {
-                debugger;
-                if ($("#add-controlKey").typedInput('type') === 'switch') {
-                    $("#add-control-switch-sendOnOffValue").show();
-                } else {
-                    $("#add-control-switch-sendOnOffValue").hide();
-                }
-            });
-            $('#add-control-switch-onvalue').typedInput({
-                default: 'bool',
-                typeField: $("#add-control-switch-onvalue-value"),
-                types: ['str', 'num', 'bool', 'json', 'bin', 'date', 'flow', 'global'],
-                value: false
-            });
-
             $("#node-input-size").elementSizer({
                 width: "#node-input-width",
                 height: "#node-input-height",
                 group: "#node-input-group"
             });
+            $("#controls-container").editableList({
+                addItem: function (container, i, control) {
+                    var row = $('<div/>').appendTo(container);
+                    var row1Switch = $('<div/>', { style: "margin-top:8px;" }).appendTo(container);
+                    var row2Switch = $('<div/>', { style: "margin-top:8px;" }).appendTo(container);
+                    var row1Button = $('<div/>', { style: "margin-top:8px; display: none" }).appendTo(container);
+
+                    var selectField = $('<select/>', { class: "input-control-type" }).appendTo(row);
+                    selectField.append($("<option></option>").val('switch').text(RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.switchType")));
+                    selectField.append($("<option></option>").val('button').text(RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.buttonType")));
+                    selectField.on('change', function (evt) {
+                        if (this.value === 'button') {
+                            row1Switch.hide();
+                            row2Switch.hide();
+                            row1Button.show();
+                        } else {
+                            row1Switch.show();
+                            row2Switch.show();
+                            row1Button.hide();
+                        }
+                    });
+                    var controlKey = $('<input/>', { id: 'control-key-' + i, class: "input-control-key", type: "text", placeholder: RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.controlKey") }).appendTo(row);
+                    var controlLabel = $('<input/>', { id: 'control-label-' + i, class: "input-control-label", type: "text", placeholder: RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.controlLabel") }).appendTo(row);
+
+                    var resetWhenClicked = $('<input/>', { id: 'control-button-reset-' + i, class: 'control-button-reset', type: 'checkbox' }).appendTo(row1Button);
+                    $('<label/>', { for: 'control-button-reset-' + i }).appendTo(row1Button).text(RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.buttonReset"));
+
+                    $('<label/>', { for: 'switch-off-value', for: 'control-switch-off-value-' + i, }).appendTo(row1Switch).text(RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.sendSwitchOffLabel"));
+                    var switchOffVal = $('<input/>', { id: 'control-switch-off-value-' + i, class: "input-control-switch-off-value", type: "text" })
+                        .appendTo(row1Switch)
+                        .typedInput({
+                            default: 'bool',
+                            types: ['str', 'num', 'bool', 'json', 'bin', 'date', 'flow', 'global'],
+                            value: true
+                        });
+
+                    $('<label/>', { for: 'switch-on-value', for: 'control-switch-on-value-' + i, }).appendTo(row2Switch).text(RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.sendSwitchOnLabel"));
+                    var switchOnVal = $('<input/>', { id: 'control-switch-on-value-' + i, class: "input-control-switch-on-value", type: "text" })
+                        .appendTo(row2Switch)
+                        .typedInput({
+                            default: 'bool',
+                            types: ['str', 'num', 'bool', 'json', 'bin', 'date', 'flow', 'global'],
+                            value: true
+                        });
+
+                    //Adding default vales
+                    if (!control || !control.type) {
+                        control = { type: 'switch', onValType: 'bool', onVal: 'true', offValType: 'bool', offVal: 'false' };
+                    }
+
+                    //setting existing value
+                    selectField.val(control.type);
+                    controlKey.val(control.key);
+                    controlLabel.val(control.label);
+                    if (control.type === 'button') {
+                        resetWhenClicked.prop('checked', control.reset);
+                    } else if (control.type === 'switch') {
+                        switchOffVal.typedInput('type', control.offValType);
+                        switchOffVal.typedInput('value', control.offVal);
+                        switchOnVal.typedInput('type', control.onValType);
+                        switchOnVal.typedInput('value', control.onVal);
+                    }
+                    selectField.change();
+                },
+                removable: true,
+                sortable: true
+            });
+
+            //Adding existing value
+            for (var i = 0; i < this.controls.length; i++) {
+                var item = this.controls[i];
+                $("#controls-container").editableList('addItem', item);
+            }
         },
         oneditsave: function () {
-            // debugger
-            // $("#node-input-calendar").val(this.editor.getValue());
-            // this.editor.destroy();
-            // delete this.editor;
-            // this.sliderMaxValue = Number.parseFloat(this.sliderMaxValue);
-            // this.sliderMinValue = Number.parseFloat(this.sliderMinValue);
-            // this.sliderStep = Number.parseFloat(this.sliderStep)
-            // this.thresholdFalling = Number.parseFloat(this.thresholdFalling);
-            // this.thresholdRising = Number.parseFloat(this.thresholdRising);
+            var node = this;
+            var controlList = [];
+            var controls = $("#controls-container").editableList('items');
+            controls.each(function (i) {
+                var item = $(this);
+                var type = item.find('.input-control-type').val();
+                var key = item.find('.input-control-key').val();
+                var label = item.find('.input-control-label').val();
+                if (type === 'button') {
+                    controlList.push({
+                        type: type,
+                        key: key,
+                        label: label,
+                        reset: item.find('.control-button-reset').is(':checked')
+                    });
+                } else if (type === 'switch') {
+                    var offInputType = item.find('.input-control-switch-off-value');
+                    var onInputType = item.find('.input-control-switch-on-value');
+                    controlList.push({
+                        type: type,
+                        key: key,
+                        label: label,
+                        onValType: onInputType.typedInput('type'),
+                        onVal: onInputType.typedInput('value'),
+                        offValType: offInputType.typedInput('type'),
+                        offVal: offInputType.typedInput('value')
+                    });
+                }
+            });
+            this.controls = controlList;
         },
         oneditcancel: function () {
-            // this.editor.destroy();
-            // delete this.editor;
         },
         oneditresize: function (size) {
-            // this.editor.resize();
         }
     });
 </script>
