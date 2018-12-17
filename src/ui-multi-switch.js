@@ -34,5 +34,5 @@ module.exports = function (RED) {
             }
         });
     }
-    RED.nodes.registerType('ui-multi-switch', getNode);
+    RED.nodes.registerType('ui_multi_switch', getNode);
 };

@@ -8,7 +8,7 @@
   "homepage": "https://github.com/SergiuToporjinschi/node-red-contrib-ui-multi-switch#readme",
   "node-red": {
     "nodes": {
-      "ui-multi-switch": "src/ui-multi-switch.js"
+      "ui_multi_switch": "src/ui-multi-switch.js"
     }
   },
   "main": "src/ui-multi-switch.js",

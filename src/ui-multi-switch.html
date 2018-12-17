@@ -1,4 +1,4 @@
-<script type="text/html text/x-red" data-template-name="ui-multi-switch">
+<script type="text/html text/x-red" data-template-name="ui_multi_switch">
     <style>
         input.input-control-key, input.input-control-label {
             width: 36%;
@@ -51,7 +51,7 @@
 </script>
 
 <script type="text/javascript">
-    RED.nodes.registerType("ui-multi-switch", {
+    RED.nodes.registerType("ui_multi_switch", {
         category: 'dashboard',
         color: 'rgb( 63, 173, 181)',
         defaults: {
@@ -103,8 +103,8 @@
                     var row1Button = $('<div/>', { style: "margin-top:8px; display: none" }).appendTo(container);
 
                     var selectField = $('<select/>', { class: "input-control-type" }).appendTo(row);
-                    selectField.append($("<option></option>").val('switch').text(RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.switchType")));
-                    selectField.append($("<option></option>").val('button').text(RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.buttonType")));
+                    selectField.append($("<option></option>").val('switch').text(RED._("node-red-contrib-ui-multi-switch/ui_multi_switch:config.label.switchType")));
+                    selectField.append($("<option></option>").val('button').text(RED._("node-red-contrib-ui-multi-switch/ui_multi_switch:config.label.buttonType")));
                     selectField.on('change', function (evt) {
                         if (this.value === 'button') {
                             row1Switch.hide();
@@ -117,14 +117,14 @@
                         }
                         resizeRule(container);
                     });
-                    var controlKey = $('<input/>', { id: 'control-key-' + i, class: "input-control-key", type: "text", placeholder: RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.controlKey") }).appendTo(row);
-                    var controlLabel = $('<input/>', { id: 'control-label-' + i, class: "input-control-label", type: "text", placeholder: RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.controlLabel") }).appendTo(row);
+                    var controlKey = $('<input/>', { id: 'control-key-' + i, class: "input-control-key", type: "text", placeholder: RED._("node-red-contrib-ui-multi-switch/ui_multi_switch:config.label.controlKey") }).appendTo(row);
+                    var controlLabel = $('<input/>', { id: 'control-label-' + i, class: "input-control-label", type: "text", placeholder: RED._("node-red-contrib-ui-multi-switch/ui_multi_switch:config.label.controlLabel") }).appendTo(row);
 
                     var resetWhenClicked = $('<input/>', { id: 'control-button-reset-' + i, class: 'control-button-reset', type: 'checkbox' }).appendTo(row1Button);
-                    $('<label/>', { for: 'control-button-reset-' + i }).appendTo(row1Button).text(RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.buttonReset"));
+                    $('<label/>', { for: 'control-button-reset-' + i }).appendTo(row1Button).text(RED._("node-red-contrib-ui-multi-switch/ui_multi_switch:config.label.buttonReset"));
 
 
-                    $('<label/>', { for: 'switch-on-value', for: 'control-switch-on-value-' + i, }).appendTo(row1Switch).text(RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.sendSwitchOnLabel"));
+                    $('<label/>', { for: 'switch-on-value', for: 'control-switch-on-value-' + i, }).appendTo(row1Switch).text(RED._("node-red-contrib-ui-multi-switch/ui_multi_switch:config.label.sendSwitchOnLabel"));
                     var switchOnVal = $('<input/>', { id: 'control-switch-on-value-' + i, class: "input-control-switch-on-value", type: "text" })
                         .appendTo(row1Switch)
                         .typedInput({
@@ -132,13 +132,13 @@
                             types: ['str', 'num', 'bool', 'json', 'bin', 'date', 'flow', 'global'],
                             value: true
                         });
-                    $('<label/>', { for: 'switch-off-value', for: 'control-switch-off-value-' + i, }).appendTo(row2Switch).text(RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.sendSwitchOffLabel"));
+                    $('<label/>', { for: 'switch-off-value', for: 'control-switch-off-value-' + i, }).appendTo(row2Switch).text(RED._("node-red-contrib-ui-multi-switch/ui_multi_switch:config.label.sendSwitchOffLabel"));
                     var switchOffVal = $('<input/>', { id: 'control-switch-off-value-' + i, class: "input-control-switch-off-value", type: "text" })
                         .appendTo(row2Switch)
                         .typedInput({
                             default: 'bool',
                             types: ['str', 'num', 'bool', 'json', 'bin', 'date', 'flow', 'global'],
-                            value: true
+                            value: false
                         });
 
                     //Adding default vales
@@ -211,7 +211,7 @@
         }
     });
 </script>
-<script type="text/html text/x-red" data-help-name="ui-multi-switch">
+<script type="text/html text/x-red" data-help-name="ui_multi_switch">
 	<p>A dashboard ui interface for multiple checkboxes and buttons; 
         The values of all checkbox are sent to output when the user pushes the button;
         A button will allways output a message formed by values from all switch controls</p>
