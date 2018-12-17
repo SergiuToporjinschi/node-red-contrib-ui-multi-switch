@@ -23,7 +23,6 @@ module.exports.init = function (config) {
     function getController($scope, events) {
         $scope.init = function (config) {
             $scope.items = $scope.resetSwitch(config.controls);
-
         };
         $scope.resetSwitch = function (items) {
             for (var i in items) {
