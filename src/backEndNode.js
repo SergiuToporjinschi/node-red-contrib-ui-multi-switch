@@ -34,6 +34,7 @@ backEndNode.prototype.beforeSend = function (msg, orig) {
                 }
             }
         }
+        orig.msg.topic = this.config.topic;
         return orig.msg;
     }
 };

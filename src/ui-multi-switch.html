@@ -33,6 +33,10 @@
         <label for="node-input-group"><i class="fa fa-table"></i> <span data-i18n="config.label.group"></span></label>
         <input type="text" id="node-input-group">
     </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-tasks"></i> <span data-i18n="config.label.topic"></span></label>
+        <input type="text" id="node-input-topic">
+    </div>
     <div class="form-row" id="template-row-size">
         <label><i class="fa fa-object-group"></i> <span data-i18n="config.label.size"></span></label>
         <input type="hidden" id="node-input-width">
@@ -77,7 +81,8 @@
                 }
             },
             height: { value: 3 },
-            controls: []
+            controls: { value: [] },
+            topic: { value: '' }
         },
         inputs: 0,
         outputs: 1,
@@ -95,6 +100,7 @@
                 var newWidth = container.width();
                 container.find('.red-ui-typedInput').typedInput("width", newWidth - 100);
             }
+            $('#node-input-topic').val(this.topic);
             $("#controls-container").editableList({
                 addItem: function (container, i, control) {
                     var row = $('<div/>').appendTo(container);
@@ -175,6 +181,7 @@
         oneditsave: function () {
             var node = this;
             var controlList = [];
+            this.topic = $('#node-input-topic').val();
             var controls = $("#controls-container").editableList('items');
             controls.each(function (i) {
                 var item = $(this);
