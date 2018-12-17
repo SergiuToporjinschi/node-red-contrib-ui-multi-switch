@@ -4,16 +4,18 @@ module.exports.init = function (config) {
     function getCSS() {
         return String.raw`
         <style>
+
+            
         </style>`;
     }
     function getHTML() {
         return String.raw`
         <div class='wrapper' layout="column" flex layout-align="center stretch" ng-init='init(${conf})'>
-            <div ng-repeat='item in items'> 
-                <md-switch ng-if='item.type==="switch"' ng-model="item.val" ng-swipe-right="$event.stopPropagation();" ng-swipe-left="$event.stopPropagation();" aria-label="item.label">
+            <div ng-repeat='item in items' style="text-align: center"> 
+                <md-switch ng-if='item.type==="switch"' ng-model="item.val" ng-swipe-right="$event.stopPropagation();" ng-swipe-left="$event.stopPropagation();" class="switch" aria-label="item.label">
                     <ng-bind-html ng-bind-html="item.label"></ng-bind-html>
                 </md-switch>
-                <md-button ng-if='item.type==="button"' ng-click="buttonClick(item)" aria-label="item.label">
+                <md-button ng-if='item.type==="button"' ng-click="buttonClick(item)" aria-label="item.label" class="button" >
                     <ng-bind-html ng-bind-html="item.label"></ng-bind-html>
                 </md-button>
             </div>   
