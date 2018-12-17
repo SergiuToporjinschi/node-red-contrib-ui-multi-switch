@@ -117,17 +117,17 @@
                     var resetWhenClicked = $('<input/>', { id: 'control-button-reset-' + i, class: 'control-button-reset', type: 'checkbox' }).appendTo(row1Button);
                     $('<label/>', { for: 'control-button-reset-' + i }).appendTo(row1Button).text(RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.buttonReset"));
 
-                    $('<label/>', { for: 'switch-off-value', for: 'control-switch-off-value-' + i, }).appendTo(row1Switch).text(RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.sendSwitchOffLabel"));
-                    var switchOffVal = $('<input/>', { id: 'control-switch-off-value-' + i, class: "input-control-switch-off-value", type: "text" })
+
+                    $('<label/>', { for: 'switch-on-value', for: 'control-switch-on-value-' + i, }).appendTo(row1Switch).text(RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.sendSwitchOnLabel"));
+                    var switchOnVal = $('<input/>', { id: 'control-switch-on-value-' + i, class: "input-control-switch-on-value", type: "text" })
                         .appendTo(row1Switch)
                         .typedInput({
                             default: 'bool',
                             types: ['str', 'num', 'bool', 'json', 'bin', 'date', 'flow', 'global'],
                             value: true
                         });
-
-                    $('<label/>', { for: 'switch-on-value', for: 'control-switch-on-value-' + i, }).appendTo(row2Switch).text(RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.sendSwitchOnLabel"));
-                    var switchOnVal = $('<input/>', { id: 'control-switch-on-value-' + i, class: "input-control-switch-on-value", type: "text" })
+                    $('<label/>', { for: 'switch-off-value', for: 'control-switch-off-value-' + i, }).appendTo(row2Switch).text(RED._("node-red-contrib-ui-multi-switch/ui-multi-switch:config.label.sendSwitchOffLabel"));
+                    var switchOffVal = $('<input/>', { id: 'control-switch-off-value-' + i, class: "input-control-switch-off-value", type: "text" })
                         .appendTo(row2Switch)
                         .typedInput({
                             default: 'bool',
@@ -201,7 +201,7 @@
         oneditcancel: function () {
         },
         oneditresize: function (size) {
-            $("#controls-container").find('.red-ui-typedInput').typedInput("width",size.width-200);
+            $("#controls-container").find('.red-ui-typedInput').typedInput("width", size.width - 200);
         }
     });
 </script>

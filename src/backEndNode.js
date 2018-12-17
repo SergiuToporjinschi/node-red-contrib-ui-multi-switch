@@ -14,31 +14,26 @@ backEndNode.prototype.getWidget = function () {
         format: html,
         templateScope: "local",
         emitOnlyNewValues: false,
-        forwardInputMessages: false,
+        forwardInput0Messages: false,
         storeFrontEndInputAsState: false,
         initController: frontEnd.getController,
         beforeSend: function () { return me.beforeSend.apply(me, arguments); }
     };
 };
-// beforeEmit: function () { return me.beforeEmit.apply(me, arguments); },
-
-// backEndNode.prototype.beforeEmit = function (msg, value) {
-//     if (this.allowedTopics.indexOf(msg.topic) < 0) { //if topic is not a safe one just trigger a refresh of UI
-//         return { msg: storeKeyInContext(this.node) }; //return what I already have
-//     }
-
-//     var returnValues = storeKeyInContext(this.node, msg.topic, value);
-//     if ('currentTemp' === msg.topic) {
-//         returnValues.currentSchedule = getScheduleTemp(this.config.calendar);
-//         returnValues.nextSchedule = getScheduleTemp(this.config.calendar, 1);
-//         returnValues = recalculateAndTrigger(returnValues, this.config.thresholdRising, this.config.thresholdFalling, this.node);
-//         this.node.send({ payload: returnValues });
-//     }
-//     return { msg: returnValues };
-// };
 
 backEndNode.prototype.beforeSend = function (msg, orig) {
     if (orig) {
+        for (var i in Object.keys(orig.msg.payload)) {
+            var key = Object.keys(orig.msg.payload)[i];
+            var item = orig.msg.payload[key];
+            if (item.hasOwnProperty("context")) {
+                if (item.type === 'global') {
+                    orig.msg.payload[key] = this.node.context().global.get(item.key);
+                } else if (item.type === 'flow') {
+                    orig.msg.payload[key] = this.node.context().flow.get(item.key);
+                }
+            }
+        }
         return orig.msg;
     }
 };
